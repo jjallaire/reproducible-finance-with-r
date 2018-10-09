@@ -1,0 +1,8 @@
+---
+title: "Gallery of featured posts"
+listing:
+  posts:
+    - 2016-11-08-sharpe-ratio
+    - 2017-11-09-visualizing-asset-returns 
+    - 2017-09-13-asset-volatility 
+---
