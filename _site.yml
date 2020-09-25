@@ -13,7 +13,6 @@ favicon: images/favicon.png
 google_analytics: "UA-77306155-2"
 navbar:
   logo: images/rstudio.png
-  search: false
   right:
     - text: "Home"
       href: index.html

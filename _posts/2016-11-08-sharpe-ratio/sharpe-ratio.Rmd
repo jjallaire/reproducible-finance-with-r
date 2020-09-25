@@ -3,18 +3,20 @@ title: "The Sharpe Ratio"
 description: |
   In this post we present a classic finance use case using the PerformanceAnalytics, quantmod, and dygraphs packages. We'll demonstrate importing stock data, building a portfolio, and then calculating the Sharpe Ratio. 
 preview: preview.png
-author: 
-  - name: "Jonathan Regenstein"
-    url: https://www.linkedin.com/in/jkregenstein/
-    affiliation: RStudio
-    affiliation_url: https://www.rstudio.com
 date: 11-08-2016
 categories:
-  - portfolios
+  - portfolio theory
   - dygraphs
+  - quarto
+  - shiny
+  - rmarkdown
+  - reproducible research
 output: 
   distill::distill_article:
+    highlight: default
     self_contained: false
+    toc: true
+repository_url: https://github.com/jjallaire/reproducible-finance-with-r/
 ---
 
 ```{r setup, include=FALSE}
@@ -28,7 +30,7 @@ set.seed(42)
 
 ## Overview
 
-In this post we'll demonstrate the calculation of a Sharpe Ratio for a stock portfolio. We'll start with a function that grabs monthly stock returns and saves those monthly returns as an xts object in the global environment. With that function, we will create three xts objects of monthly returns, and merge those three xts objects into one object, before passing that merged object to dygraphs to peek at the individual stocks. 
+In this post we'll demonstrate the calculation of a Sharpe Ratio for a stock portfolio. We'll start with a function that grabs monthly stock returns and saves those monthly returns as an xts object in the global environment. With that function, we will create three xts objects of monthly returns, and merge those three xts objects into one object, before passing that merged object to dygraphs to peek at the individual stocks.
 
 Then, we'll move on to build a portfolio by selecting asset weights and calculating the portfolio monthly returns. Next, we will calculate the growth of a dollar invested in that portfolio (which is what matters to us) over time, and save the results to an xts object. Dygraphs will come in handy again for the portfolio visualizations. Finally, we will calculate the Sharpe Ratio.
 
@@ -41,7 +43,7 @@ library(PerformanceAnalytics)
 library(quantmod)
 library(dygraphs)
 
-# Function to calculate monthly returns on a stock
+# Function to calculate monthly returns on a stock 
 monthly_stock_returns <- function(ticker, start_year) {
   
   # Download the data from Yahoo finance
@@ -63,7 +65,7 @@ monthly_stock_returns <- function(ticker, start_year) {
 }
 ```
 
-The `monthly_stock_returns` function above takes 2 parameters, a stock symbol and a year. Note that we could have included a third parameter called something like ‘period' if we wanted the ability to grab periods other than monthly returns. For example, we can envision a desire to look at annual, weekly or daily returns. Here, I force monthly returns because I don't want to allow different period options. It's a choice driven by the purpose of this Notebook - which here is focused on monthly returns.
+The `monthly_stock_returns` function above takes 2 parameters, a stock symbol and a year. Note that we could have included a third parameter called something like 'period' if we wanted the ability to grab periods other than monthly returns. For example, we can envision a desire to look at annual, weekly or daily returns. Here, I force monthly returns because I don't want to allow different period options. It's a choice driven by the purpose of this Notebook - which here is focused on monthly returns.
 
 ## Preparing the data
 
@@ -115,7 +117,7 @@ dygraph(portfolio_monthly_returns, main = "Portfolio Monthly Return") %>%
   dyAxis("y", label = "%")
 ```
 
-Now, instead of looking at monthly returns, let's look at how $1 would have grown in this portfolio.
+Now, instead of looking at monthly returns, let's look at how \$1 would have grown in this portfolio.
 
 ```{r, layout="l-page"}
 # Add the wealth.index = TRUE argument and, instead of monthly returns,
@@ -128,7 +130,7 @@ dygraph(dollar_growth, main = "Growth of $1 Invested in Portfolio") %>%
   dyAxis("y", label = "$")
 ```
 
-A dollar would have grown quite nicely in this portfolio - about 2.5x - fantastic. 
+A dollar would have grown quite nicely in this portfolio - about 2.5x - fantastic.
 
 ## Calculating the Sharpe Ratio
 
@@ -165,4 +167,3 @@ Using the Return.excess function and then dividing by the standard deviation of 
 Using the built in SharpeRatio function, the Sharpe Ratio is `sharpe_ratio[1,]` = `r sharpe_ratio[1,]`.
 
 Alright, we have built a portfolio and calculated the Sharpe Ratio - and also set up some nice reusable chunks for data import, portfolio construction and visualization. We haven't done anything terribly complex but this can serve as a useful paradigm to any collaborators, including our future selves, who want to reproduce this work, learn from this work, or expand upon this work.
-
