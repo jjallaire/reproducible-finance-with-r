@@ -7,10 +7,6 @@ date: 11-08-2016
 categories:
   - portfolio theory
   - dygraphs
-  - quarto
-  - shiny
-  - rmarkdown
-  - reproducible research
 output: 
   distill::distill_article:
     highlight: default
